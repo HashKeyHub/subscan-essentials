@@ -17,6 +17,7 @@ services:
       - '4399:4399'
     networks:
       - app_net
+    command: ["/subscan/cmd/subscan","--conf","../configs"]
   subscan-daemon:
     <<: *app_base
     image: scan/backend

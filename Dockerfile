@@ -8,7 +8,10 @@ COPY go.sum .
 
 RUN go mod download
 
+
 COPY . /subscan
+
+RUN go build -buildmode=plugin -o configs/plugins/transfer.so -v ./plugins/transfer
 
 WORKDIR /subscan/cmd
 
@@ -33,6 +36,9 @@ COPY configs/http.toml.example configs/http.toml
 COPY --from=builder /subscan/cmd/subscan cmd/subscan
 
 COPY cmd/run.py cmd/run.py
+
+RUN mkdir configs/plugins
+COPY --from=builder /subscan/configs/plugins/transfer.so configs/plugins/transfer.so
 
 WORKDIR cmd
 
