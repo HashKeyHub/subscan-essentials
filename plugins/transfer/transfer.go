@@ -26,7 +26,6 @@ func New() *Transfer {
 func (a *Transfer) InitDao(d storage.Dao) {
 	srv = service.New(d)
 	a.d = d
-	d.DB().Debug()
 	a.Migrate()
 }
 func (a *Transfer) InitHttp(e *bm.Engine) {
