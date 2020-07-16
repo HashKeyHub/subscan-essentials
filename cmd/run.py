@@ -16,7 +16,7 @@ def daemon_status():
 
 
 def system_do(op):
-    os.system('../subscan -conf ../configs start ' + op)
+    os.system('./subscan -conf ../configs start ' + op)
 
 
 def main():
