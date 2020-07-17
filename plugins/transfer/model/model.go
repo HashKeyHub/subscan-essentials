@@ -11,4 +11,5 @@ type Transfer struct {
 	Fee            decimal.Decimal `json:"fee" sql:"type:decimal(30,0);"`
 	Amount         decimal.Decimal `json:"amount" sql:"type:decimal(30,0);"`
 	Finalized      bool            `json:"finalized"`
+	Success        bool            `json:"success"`
 }

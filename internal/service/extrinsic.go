@@ -41,6 +41,7 @@ func (s *Service) createExtrinsic(c context.Context,
 	for index, extrinsic := range e {
 		extrinsic.CallModule = strings.ToLower(extrinsic.CallModule)
 		extrinsic.BlockNum = block.BlockNum
+		extrinsic.BlockTimestamp = block.BlockTimestamp
 		extrinsic.ExtrinsicIndex = fmt.Sprintf("%d-%d", extrinsic.BlockNum, index)
 		extrinsic.Success = s.getExtrinsicSuccess(eventMap[extrinsic.ExtrinsicIndex])
 		extrinsic.Finalized = finalized

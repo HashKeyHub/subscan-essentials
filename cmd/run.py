@@ -16,13 +16,13 @@ def daemon_status():
 
 
 def system_do(op):
-    os.system('./subscan -conf ../configs start ' + op)
+    os.system('./subscan --conf ../configs start ' + op)
 
 
 def main():
     op = []
     if len(sys.argv) == 1:
-        os.system('./subscan -conf ../configs')
+        os.system('./subscan --conf ../configs')
     elif sys.argv[1] == "substrate":
         op = ["substrate"]
     map(system_do, op)  # run,run,run
@@ -33,7 +33,7 @@ def main():
         for i in range(len(op)):
             try:
                 if not j["data"][op[i]]:
-                    s = './subscan stop {daemon} && ./subscan start {daemon}'
+                    s = './subscan --conf ../configs stop {daemon} && ./subscan --conf ../configs start {daemon}'
                     os.system(s.format(daemon=op[i]))
             except KeyError:
                 pass

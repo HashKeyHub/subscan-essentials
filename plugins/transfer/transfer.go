@@ -54,6 +54,7 @@ func (a *Transfer) ProcessExtrinsic(block *storage.Block, extrinsic *storage.Ext
 		ExtrinsicIndex: extrinsic.ExtrinsicIndex,
 		Fee:            extrinsic.Fee,
 		Finalized:      block.Finalized,
+		Success:        extrinsic.Success,
 	}
 	log.Info("extrinsic params: %v", paramsInstant)
 	for _, param := range paramsInstant {
