@@ -41,12 +41,16 @@ func (s *Service) createExtrinsic(c context.Context,
 	for index, extrinsic := range e {
 		extrinsic.CallModule = strings.ToLower(extrinsic.CallModule)
 		extrinsic.BlockNum = block.BlockNum
-		extrinsic.BlockTimestamp = block.BlockTimestamp
 		extrinsic.ExtrinsicIndex = fmt.Sprintf("%d-%d", extrinsic.BlockNum, index)
 		extrinsic.Success = s.getExtrinsicSuccess(eventMap[extrinsic.ExtrinsicIndex])
 		extrinsic.Finalized = finalized
 
 		s.getTimestamp(&extrinsic)
+		if extrinsic.BlockTimestamp != 0 {
+			blockTimestamp = extrinsic.BlockTimestamp
+		} else {
+			extrinsic.BlockTimestamp = blockTimestamp
+		}
 
 		if extrinsic.ExtrinsicHash != "" {
 			extrinsic.Fee = transaction.GetExtrinsicFee(encodeExtrinsics[index])
