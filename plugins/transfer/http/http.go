@@ -50,7 +50,7 @@ func transfers(c *bm.Context) {
 				q = append(q, fmt.Sprintf("addr_to = '%s'", a))
 			}
 			if t == "TRANSFER" {
-				q = append(q, fmt.Sprintf("addr_from = '%s", a))
+				q = append(q, fmt.Sprintf("addr_from = '%s'", a))
 			}
 		}
 		query = append(query, strings.Join(q, " or "))
