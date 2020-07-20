@@ -8,6 +8,7 @@ import (
 	"github.com/itering/subscan/plugins/transfer/service"
 	"github.com/itering/subscan/util"
 	"github.com/itering/subscan/util/ss58"
+	"strings"
 )
 
 var (
@@ -27,11 +28,12 @@ func Router(s *service.Service, e *bm.Engine) {
 
 func transfers(c *bm.Context) {
 	p := new(struct {
-		Row        int    `json:"row" validate:"min=1,max=100"`
-		Page       int    `json:"page" validate:"min=0"`
-		Order      string `json:"order" validate:"omitempty,oneof=desc asc"`
-		OrderField string `json:"order_field" validate:"omitempty"`
-		Address    string `json:"address" validate:"omitempty"`
+		Row        int      `json:"row" validate:"min=1,max=1000"`
+		Page       int      `json:"page" validate:"min=0"`
+		Order      string   `json:"order" validate:"omitempty,oneof=desc asc"`
+		OrderField string   `json:"order_field" validate:"omitempty"`
+		Address    string   `json:"address" validate:"omitempty"`
+		Types      []string `json:"types" validate:"omitempty"`
 	})
 	if err := c.BindWith(p, binding.JSON); err != nil {
 		return
@@ -39,12 +41,22 @@ func transfers(c *bm.Context) {
 	var query []string
 
 	log.Info("api/scan/transfers params: %v", p)
+
 	if p.Address != "" {
 		a := ss58.Decode(p.Address, util.StringToInt(util.AddressType))
-		query = append(query, fmt.Sprintf("addr_from = '%s' or addr_to = '%s'", a, a))
+		var q []string
+		for _, t := range p.Types {
+			if t == "RECEIVE" {
+				q = append(q, fmt.Sprintf("addr_to = '%s'", a))
+			}
+			if t == "TRANSFER" {
+				q = append(q, fmt.Sprintf("addr_from = '%s", a))
+			}
+		}
+		query = append(query, strings.Join(q, " or "))
 	}
 	if p.OrderField == "" {
-		p.OrderField = "extrinsic_index"
+		p.OrderField = "block_num"
 	}
 
 	list, count := svc.GetTransferListJson(p.Page, p.Row, p.Order, p.OrderField, query...)
