@@ -4,6 +4,8 @@ import (
 	bm "github.com/go-kratos/kratos/pkg/net/http/blademaster"
 	"github.com/go-kratos/kratos/pkg/net/http/blademaster/binding"
 	"github.com/itering/subscan/plugins/balance/service"
+	"github.com/itering/subscan/util"
+	"github.com/itering/subscan/util/ss58"
 )
 
 var (
@@ -16,7 +18,7 @@ func Router(s *service.Service, e *bm.Engine) {
 	{
 		s := g.Group("/scan")
 		{
-			s.POST("accounts", accounts)
+			s.GET("accounts/:address/balance", account)
 		}
 	}
 }
@@ -35,5 +37,13 @@ func accounts(c *bm.Context) {
 	list, count := svc.GetAccountListJson(p.Page, p.Row, p.Order, p.OrderField, query...)
 	c.JSON(map[string]interface{}{
 		"list": list, "count": count,
+	}, nil)
+}
+
+func account(c *bm.Context) {
+	addr,_ := c.Params.Get("address")
+	balance, _ := svc.GetAccount(ss58.Decode(addr, util.StringToInt(util.AddressType)))
+	c.JSON(map[string]interface{}{
+		"balance": balance,
 	}, nil)
 }
