@@ -263,6 +263,8 @@ func (s *Service) FillBlockData(blockNum int, finalized bool) (err error) {
 	if err = s.CreateChainBlock(blockHash, &rpcBlock.Block, event, specVersion, finalized); err == nil {
 		_ = s.SetAlreadyBlockNum(blockNum)
 		setFinalized()
+	} else {
+		log.Error("Create chain block %v error: %v", blockNum, err)
 	}
 	return
 }
