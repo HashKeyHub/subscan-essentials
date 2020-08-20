@@ -90,3 +90,4 @@ func TestBase58(t *testing.T) {
 		}
 	}
 }
+
