@@ -32,6 +32,7 @@ func (d *Dao) CreateExtrinsic(c context.Context, txn *GormDB, extrinsic *model.C
 		Success:            extrinsic.Success,
 		IsSigned:           extrinsic.Signature != "",
 		Fee:                extrinsic.Fee,
+		Tip:                extrinsic.Tip,
 		Finalized:          extrinsic.Finalized,
 	}
 	query := txn.Create(&ce)

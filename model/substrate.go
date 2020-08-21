@@ -7,7 +7,7 @@ import (
 )
 
 // SplitTableBlockNum
-var SplitTableBlockNum = 1000000
+var SplitTableBlockNum = 10000000
 
 type ChainBlock struct {
 	ID              uint      `gorm:"primary_key" json:"id"`
@@ -82,6 +82,7 @@ type ChainExtrinsic struct {
 	IsSigned           bool            `json:"is_signed"`
 	Success            bool            `json:"success"`
 	Fee                decimal.Decimal `json:"fee" sql:"type:decimal(30,0);"`
+	Tip                decimal.Decimal `json:"fee" sql:"type:decimal(30,0);"`
 	Finalized          bool            `json:"finalized"`
 	BatchIndex         int             `json:"-" gorm:"-"`
 }

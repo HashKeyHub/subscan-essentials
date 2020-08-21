@@ -11,9 +11,6 @@ import (
 
 func (d *Dao) CreateBlock(c context.Context, txn *GormDB, cb *model.ChainBlock) (err error) {
 	query := txn.Create(&cb)
-	if !d.db.HasTable(model.ChainBlock{BlockNum: cb.BlockNum + model.SplitTableBlockNum}) {
-		go d.blockMigrate(cb.BlockNum + model.SplitTableBlockNum)
-	}
 	return d.checkDBError(query.Error)
 }
 

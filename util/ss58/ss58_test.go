@@ -27,12 +27,12 @@ func TestEncode(t *testing.T) {
 
 func TestKusamaDecode(t *testing.T) {
 	//address := "GTug9rrdeBDadKXJ9DM5pUgYKnWJeVrvY8UeWpm3PpQgRq9"
-	address := "FoQJpPyadYccjavVdTWxpxU7rUEaYhfLCPwXgkfD6Zat9QP"
+	address := "5FGDTP2nHiUzcQ4zCto73TvBKC7GerbyXTjAHp9Yruypoq6U"
 	address1 := "14E5nqKAp3oAJcmzgZhUD2RcptBeUBScxKHgJKU4HPNcKVf3"
 
 	ss58Format := base58.Decode(address)
 	log.Warn(util.BytesToHex(ss58Format))
-	decoded := ss58.Decode(address, 2)
+	decoded := ss58.Decode(address, 42)
 	log.Warn("Decoded: " + decoded)
 
 	log.Warn(util.BytesToHex(base58.Decode(address1)))

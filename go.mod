@@ -27,6 +27,7 @@ require (
 	github.com/panjf2000/ants/v2 v2.4.0
 	github.com/pierrec/xxHash v0.1.5
 	github.com/pkg/errors v0.9.1
+	github.com/prometheus/common v0.9.1
 	github.com/sevlyar/go-daemon v0.1.5
 	github.com/shopspring/decimal v1.2.0
 	github.com/stretchr/testify v1.6.1
