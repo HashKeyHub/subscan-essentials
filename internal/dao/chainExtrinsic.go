@@ -152,6 +152,7 @@ func (d *Dao) extrinsicsAsDetail(c context.Context, e *model.ChainExtrinsic) *mo
 		ExtrinsicHash:      e.ExtrinsicHash,
 		Success:            e.Success,
 		Fee:                e.Fee,
+		Tip:                e.Tip,
 	}
 	util.UnmarshalToAnything(detail.Params, e.Params)
 
@@ -188,6 +189,7 @@ func (d *Dao) ExtrinsicsAsJson(e *model.ChainExtrinsic) *model.ChainExtrinsicJso
 		Nonce:              e.Nonce,
 		AccountIndex:       e.AccountIndex,
 		Fee:                e.Fee,
+		Tip:                e.Tip,
 	}
 	var paramsInstant []model.ExtrinsicParam
 	if err := json.Unmarshal([]byte(ej.Params), &paramsInstant); err != nil {

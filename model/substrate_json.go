@@ -47,6 +47,7 @@ type ChainExtrinsicJson struct {
 	ExtrinsicHash      string          `json:"extrinsic_hash"`
 	Success            bool            `json:"success"`
 	Fee                decimal.Decimal `json:"fee"`
+	Tip                decimal.Decimal `json:"tip"`
 }
 
 type ExtrinsicDetail struct {
@@ -63,6 +64,7 @@ type ExtrinsicDetail struct {
 	Params             *[]ExtrinsicParam `json:"params"`
 	Event              *[]ChainEvent     `json:"event"`
 	Fee                decimal.Decimal   `json:"fee"`
+	Tip                decimal.Decimal   `json:"tip"`
 	Finalized          bool              `json:"finalized"`
 }
 
