@@ -50,7 +50,7 @@ func (s *Service) Migration() {
 func (s *Service) initSubRuntimeLatest() {
 	// reg network custom type
 	defer func() {
-		//go s.unknownToken()
+		go s.unknownToken()
 		if c, err := readTypeRegistry(); err == nil {
 			types.RegCustomTypes(source.LoadTypeRegistry(c))
 			if unknown := metadata.Decoder.CheckRegistry(); len(unknown) > 0 {
