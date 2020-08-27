@@ -39,7 +39,7 @@ func (a *Transfer) Http() error {
 }
 
 func (a *Transfer) ProcessExtrinsic(block *storage.Block, extrinsic *storage.Extrinsic, event []storage.Event) error {
-	if extrinsic.CallModule != "balances" || extrinsic.CallModuleFunction != "transfer" {
+	if extrinsic.CallModule != "balances" || (extrinsic.CallModuleFunction != "transfer" && extrinsic.CallModuleFunction != "transfer_keep_alive") {
 		// ignore others
 		return nil
 	}

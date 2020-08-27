@@ -1,6 +1,7 @@
 package service
 
 import (
+	"flag"
 	"fmt"
 	"github.com/go-kratos/kratos/pkg/log"
 	"github.com/itering/scale.go/source"
@@ -74,5 +75,6 @@ func (s *Service) initSubRuntimeLatest() {
 
 // read custom registry from local or remote
 func readTypeRegistry() ([]byte, error) {
-	return ioutil.ReadFile(fmt.Sprintf("../configs/source/%s.json", util.NetworkNode))
+	confDir := flag.Lookup("conf").Value
+	return ioutil.ReadFile(fmt.Sprintf("%s/source/%s.json", confDir, util.NetworkNode))
 }

@@ -83,12 +83,16 @@ func (s *Service) getTimestamp(extrinsic *model.ChainExtrinsic) {
 }
 
 func (s *Service) getExtrinsicSuccess(e []model.ChainEvent) bool {
+	f := false
 	for _, event := range e {
 		if strings.EqualFold(event.ModuleId, "system") {
-			return strings.EqualFold(event.EventId, "ExtrinsicFailed")
+			f = strings.EqualFold(event.EventId, "ExtrinsicFailed")
+			if f {
+				break
+			}
 		}
 	}
-	return true
+	return !f
 }
 
 func (s *Service) afterExtrinsic(block *model.ChainBlock, extrinsic *model.ChainExtrinsic, events []model.ChainEvent) {
