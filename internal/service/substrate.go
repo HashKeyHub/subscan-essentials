@@ -35,7 +35,6 @@ var (
 	subscriptionIds          = []subscription{
 		{Topic: newHeader},
 		{Topic: finalizeHeader},
-		{Topic: stateChange},
 	}
 )
 

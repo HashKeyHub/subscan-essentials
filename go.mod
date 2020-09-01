@@ -12,7 +12,7 @@ require (
 	github.com/golang/protobuf v1.3.5
 	github.com/gorilla/websocket v1.4.2
 	github.com/huandu/xstrings v1.3.2
-	github.com/itering/scale.go v0.1.4
+	github.com/itering/scale.go v0.2.4
 	github.com/itering/subscan-plugin v0.0.0-20200714071511-01de55c61ec6
 	github.com/itering/substrate-api-rpc v0.0.0-20200713071436-6b196a2cd1bd
 	github.com/jinzhu/gorm v1.9.14
