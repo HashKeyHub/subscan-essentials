@@ -59,7 +59,7 @@ func (s *Service) createExtrinsic(c context.Context,
 		}
 
 		if err = s.dao.CreateExtrinsic(c, txn, &extrinsic); err == nil {
-			go s.afterExtrinsic(block, &extrinsic, eventMap[extrinsic.ExtrinsicIndex])
+			s.afterExtrinsic(block, &extrinsic, eventMap[extrinsic.ExtrinsicIndex])
 		} else {
 			return 0, 0, nil, nil, err
 		}
