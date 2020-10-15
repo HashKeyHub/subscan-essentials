@@ -12,9 +12,9 @@ require (
 	github.com/golang/protobuf v1.3.5
 	github.com/gorilla/websocket v1.4.2
 	github.com/huandu/xstrings v1.3.2
-	github.com/itering/scale.go v0.2.4
-	github.com/itering/subscan-plugin v0.0.0-20200714071511-01de55c61ec6
-	github.com/itering/substrate-api-rpc v0.0.0-20200713071436-6b196a2cd1bd
+	github.com/itering/scale.go v0.7.1
+	github.com/itering/subscan-plugin v0.2.3
+	github.com/itering/substrate-api-rpc v0.2.0
 	github.com/jinzhu/gorm v1.9.14
 	github.com/jpillora/backoff v1.0.0
 	github.com/json-iterator/go v1.1.9
@@ -32,8 +32,7 @@ require (
 	github.com/shopspring/decimal v1.2.0
 	github.com/stretchr/testify v1.6.1
 	github.com/urfave/cli v1.20.0
-	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
-	golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae // indirect
+	golang.org/x/crypto v0.0.0-20201002170205-7f63de1d35b0
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 )

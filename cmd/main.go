@@ -21,7 +21,7 @@ import (
 func main() {
 	defer func() {
 		_ = log.Close()
-		websocket.CloseWsConnection()
+		websocket.Close()
 	}()
 	if err := setupApp().Run(os.Args); err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
@@ -46,7 +46,7 @@ func setupApp() *cli.App {
 		jobs.Init()
 		log.Init(nil)
 		runtime.GOMAXPROCS(runtime.NumCPU())
-		websocket.RegWSEndPoint(util.WSEndPoint)
+		websocket.SetEndpoint(util.WSEndPoint)
 		return nil
 	}
 	app.Commands = []cli.Command{

@@ -1,7 +1,6 @@
 package service
 
 import (
-	"github.com/itering/scale.go/types"
 	"github.com/itering/substrate-api-rpc/metadata"
 	"github.com/itering/substrate-api-rpc/rpc"
 	"strings"
@@ -24,7 +23,7 @@ func (s *Service) regCodecMetadata() string {
 	return ""
 }
 
-func (s *Service) setRuntimeData(spec int, runtime *types.MetadataStruct, rawData string) {
+func (s *Service) setRuntimeData(spec int, runtime *metadata.Instant, rawData string) {
 	var modules []string
 	for _, value := range runtime.Metadata.Modules {
 		modules = append(modules, value.Name)

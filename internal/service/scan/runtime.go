@@ -1,7 +1,6 @@
 package scan
 
 import (
-	"github.com/itering/scale.go/types"
 	"github.com/itering/subscan/model"
 	"github.com/itering/substrate-api-rpc/metadata"
 )
@@ -10,7 +9,7 @@ func (s *Service) SubstrateRuntimeList() []model.RuntimeVersion {
 	return s.dao.RuntimeVersionList()
 }
 
-func (s *Service) SubstrateRuntimeInfo(spec int) *types.MetadataStruct {
+func (s *Service) SubstrateRuntimeInfo(spec int) *metadata.Instant {
 	if metadataInstant, ok := metadata.RuntimeMetadata[spec]; ok {
 		return metadataInstant
 	}

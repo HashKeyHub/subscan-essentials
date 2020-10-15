@@ -8,7 +8,7 @@ import (
 	"github.com/itering/scale.go/types"
 	"github.com/itering/subscan/internal/dao"
 	"github.com/itering/subscan/internal/service/scan"
-	"github.com/itering/subscan/plugins"
+	// "github.com/itering/subscan/plugins"
 	"github.com/itering/subscan/util"
 	"github.com/itering/substrate-api-rpc/metadata"
 	"io/ioutil"
@@ -29,9 +29,9 @@ func New() (s *Service) {
 	s.Migration()
 	s.initSubRuntimeLatest()
 
-	for _, plugin := range plugins.RegisteredPlugins {
-		plugin.InitDao(s.dao)
-	}
+	// for _, plugin := range plugins.RegisteredPlugins {
+		// plugin.InitDao(s.dao)
+	// }
 	return s
 }
 

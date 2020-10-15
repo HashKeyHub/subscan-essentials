@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-kratos/kratos/pkg/log"
-	"github.com/itering/scale.go/types"
 	"github.com/itering/subscan/model"
 	"github.com/itering/subscan/util"
 	"github.com/itering/substrate-api-rpc"
@@ -113,7 +112,7 @@ func (s *Service) CreateChainBlock(hash string, block *rpc.Block, event string, 
 		return err
 	}
 
-	if validator, err = s.EmitLog(c, txn, hash, blockNum, logs, finalized); err != nil {
+	if validator, err = s.EmitLog(c, txn, hash, blockNum, logs, finalized, s.ValidatorsList(hash)); err != nil {
 		return err
 	}
 
@@ -184,7 +183,7 @@ func (s *Service) UpdateBlockData(block *model.ChainBlock, finalized bool) (err 
 		return err
 	}
 
-	validator, err := s.EmitLog(c, txn, block.Hash, block.BlockNum, logs, finalized)
+	validator, err := s.EmitLog(c, txn, block.Hash, block.BlockNum, logs, finalized, s.ValidatorsList(block.Hash))
 	if err != nil {
 		return err
 	}
@@ -217,10 +216,18 @@ func (s *Service) GetCurrentRuntimeSpecVersion(blockNum int) int {
 	return -1
 }
 
-func (s *Service) getMetadataInstant(spec int) *types.MetadataStruct {
+func (s *Service) getMetadataInstant(spec int) *metadata.Instant {
 	metadataInstant, ok := metadata.RuntimeMetadata[spec]
 	if !ok {
 		metadataInstant = metadata.Process(s.dao.RuntimeVersionRaw(spec))
 	}
 	return metadataInstant
+}
+
+func (s *Service) ValidatorsList(hash string) (validatorList []string) {
+	validatorsRaw, _ := rpc.ReadStorage(nil, "Session", "Validators", hash)
+	for _, addr := range validatorsRaw.ToStringSlice() {
+		validatorList = append(validatorList, util.TrimHex(addr))
+	}
+	return
 }
