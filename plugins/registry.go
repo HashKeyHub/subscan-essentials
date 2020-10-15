@@ -3,12 +3,13 @@ package plugins
 import (
 	"flag"
 	"fmt"
-	"github.com/itering/subscan-plugin"
-	"github.com/itering/subscan/plugins/balance"
 	"io/ioutil"
 	"plugin"
 	"reflect"
 	"strings"
+	
+	bm "github.com/go-kratos/kratos/pkg/net/http/blademaster"
+	"github.com/itering/subscan/plugins/balance"
 )
 
 func init() {
@@ -16,9 +17,14 @@ func init() {
 	registerStatic()
 }
 
-type PluginFactory subscan_plugin.Plugin
+type PluginFactory Plugin
 
-var RegisteredPlugins = make(map[string]PluginFactory)
+type PluginFactory2 interface {
+	PluginFactory
+	InitHttp2(e *bm.Engine)
+}
+
+var RegisteredPlugins = make(map[string]PluginFactory2)
 
 func Register(name string, f interface{}) {
 	if f == nil {
@@ -29,7 +35,7 @@ func Register(name string, f interface{}) {
 		return
 	}
 
-	RegisteredPlugins[name] = f.(PluginFactory)
+	RegisteredPlugins[name] = f.(PluginFactory2)
 
 }
 

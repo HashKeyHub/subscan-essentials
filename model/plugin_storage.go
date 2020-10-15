@@ -2,7 +2,7 @@ package model
 
 import (
 	"encoding/json"
-	"github.com/itering/subscan-plugin/storage"
+	"github.com/itering/subscan/plugins/storage"
 )
 
 func (c *ChainBlock) AsPluginBlock() *storage.Block {

@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+
 	"github.com/itering/substrate-api-rpc/websocket"
 
 	"github.com/go-kratos/kratos/pkg/cache/redis"
@@ -48,7 +49,7 @@ func checkErr(err error) {
 }
 
 // New new a dao and return.
-func New() (dao *Dao) {
+func New() (dao *Dao, storage *DbStorage) {
 	var (
 		dc mysqlConf
 		rc redisConf
@@ -57,11 +58,14 @@ func New() (dao *Dao) {
 	checkErr(paladin.Get("redis.toml").UnmarshalTOML(&rc))
 	dc.mergeEnvironment()
 	rc.mergeEnvironment()
+	db := newDb(dc)
 	dao = &Dao{
-		db:    newDb(dc),
+		db:    db,
 		redis: redis.NewPool(rc.Config, redis.DialDatabase(rc.DbName)),
 		cache: fanout.New("scan", fanout.Worker(1), fanout.Buffer(1024)),
 	}
+	storage = &DbStorage{db: db}
+
 	return
 }
 

@@ -2,7 +2,8 @@ package balance
 
 import (
 	bm "github.com/go-kratos/kratos/pkg/net/http/blademaster"
-	"github.com/itering/subscan-plugin/storage"
+	"github.com/itering/subscan/plugins/storage"
+	"github.com/itering/subscan/plugins/router"
 	"github.com/itering/subscan/plugins/balance/http"
 	"github.com/itering/subscan/plugins/balance/model"
 	"github.com/itering/subscan/plugins/balance/service"
@@ -26,9 +27,13 @@ func (a *Account) InitDao(d storage.Dao) {
 	a.Migrate()
 }
 
-func (a *Account) InitHttp(e *bm.Engine) {
-	a.e = e
-	http.Router(srv, a.e)
+func (a *Account) InitHttp() []router.Http {
+	// TODO
+	return []router.Http{}
+}
+
+func (a *Account) InitHttp2(e *bm.Engine) {
+	http.Router(srv, e)
 }
 
 func (a *Account) ProcessExtrinsic(block *storage.Block, extrinsic *storage.Extrinsic, events []storage.Event) error {
@@ -37,6 +42,18 @@ func (a *Account) ProcessExtrinsic(block *storage.Block, extrinsic *storage.Extr
 
 func (a *Account) ProcessEvent(block *storage.Block, event *storage.Event, fee decimal.Decimal) error {
 	return nil
+}
+
+func (a *Account) SubscribeExtrinsic() []string {
+	return nil
+}
+
+func (a *Account) SubscribeEvent() []string {
+	return []string{"system"}
+}
+
+func (a *Account) Version() string {
+	return "0.1"
 }
 
 func (a *Account) Migrate() {

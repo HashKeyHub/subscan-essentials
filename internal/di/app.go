@@ -3,7 +3,7 @@ package di
 import (
 	"context"
 	"github.com/itering/subscan/internal/server/http"
-	// "github.com/itering/subscan/plugins"
+	"github.com/itering/subscan/plugins"
 	"time"
 
 	"github.com/go-kratos/kratos/pkg/log"
@@ -22,9 +22,9 @@ func InitApp() (*App, func(), error) {
 	app, cleanup, err := newApp(serviceService, engine)
 
 	// load plugins
-	// for _, plugin := range plugins.RegisteredPlugins {
-		// plugin.InitHttp(engine)
-	// }
+	for _, plugin := range plugins.RegisteredPlugins {
+		plugin.InitHttp2(engine)
+	}
 
 	if err != nil {
 		return nil, nil, err

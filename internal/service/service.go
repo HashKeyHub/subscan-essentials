@@ -8,7 +8,7 @@ import (
 	"github.com/itering/scale.go/types"
 	"github.com/itering/subscan/internal/dao"
 	"github.com/itering/subscan/internal/service/scan"
-	// "github.com/itering/subscan/plugins"
+	"github.com/itering/subscan/plugins"
 	"github.com/itering/subscan/util"
 	"github.com/itering/substrate-api-rpc/metadata"
 	"io/ioutil"
@@ -22,16 +22,18 @@ type Service struct {
 
 // New new a service and return.
 func New() (s *Service) {
+	d, dbStorage := dao.New()
+
 	s = &Service{
-		dao: dao.New(),
+		dao: d,
 	}
 
 	s.Migration()
 	s.initSubRuntimeLatest()
 
-	// for _, plugin := range plugins.RegisteredPlugins {
-		// plugin.InitDao(s.dao)
-	// }
+	for _, plugin := range plugins.RegisteredPlugins {
+		plugin.InitDao(dbStorage)
+	}
 	return s
 }
 

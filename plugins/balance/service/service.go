@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/itering/subscan-plugin/storage"
+	"github.com/itering/subscan/plugins/storage"
 	"github.com/itering/subscan/plugins/balance/dao"
 	"github.com/shopspring/decimal"
 )

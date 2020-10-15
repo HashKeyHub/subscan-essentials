@@ -2,7 +2,8 @@ package main
 
 import (
 	bm "github.com/go-kratos/kratos/pkg/net/http/blademaster"
-	"github.com/itering/subscan-plugin/storage"
+	"github.com/itering/subscan/plugins/router"
+	"github.com/itering/subscan/plugins/storage"
 	"github.com/itering/subscan/plugins/transfer/http"
 	model2 "github.com/itering/subscan/plugins/transfer/model"
 	"github.com/itering/subscan/plugins/transfer/service"
@@ -28,14 +29,14 @@ func (a *Transfer) InitDao(d storage.Dao) {
 	a.d = d
 	a.Migrate()
 }
-func (a *Transfer) InitHttp(e *bm.Engine) {
-	a.e = e
-	http.Router(srv, a.e)
+
+func (a *Transfer) InitHttp() []router.Http {
+	return []router.Http{}
 }
 
-func (a *Transfer) Http() error {
+func (a *Transfer) InitHttp2(e *bm.Engine) {
+	a.e = e
 	http.Router(srv, a.e)
-	return nil
 }
 
 func (a *Transfer) ProcessExtrinsic(block *storage.Block, extrinsic *storage.Extrinsic, event []storage.Event) error {
@@ -72,12 +73,23 @@ func (a *Transfer) ProcessEvent(*storage.Block, *storage.Event, decimal.Decimal)
 	return nil
 }
 
+func (a *Transfer) SubscribeExtrinsic() []string {
+	return nil
+}
+
+func (a *Transfer) SubscribeEvent() []string {
+	return []string{"system"}
+}
+
+func (a *Transfer) Version() string {
+	return "0.1"
+}
+
 func (a *Transfer) Migrate() {
-	db := a.d.DB()
-	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
+	a.d.AutoMigration(
 		&model2.Transfer{},
 	)
-	db.Model(model2.Transfer{}).AddUniqueIndex("extrinsic_index", "extrinsic_index")
-	db.Model(model2.Transfer{}).AddIndex("idx_from", "addr_from")
-	db.Model(model2.Transfer{}).AddIndex("idx_to", "addr_to")
+	a.d.AddUniqueIndex(&model2.Transfer{}, "extrinsic_index", "extrinsic_index")
+	a.d.AddIndex(&model2.Transfer{}, "idx_from", "addr_from")
+	a.d.AddIndex(&model2.Transfer{}, "idx_to", "addr_to")
 }
