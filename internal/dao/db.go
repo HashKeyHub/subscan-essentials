@@ -98,7 +98,6 @@ type DbStorage struct {
 	Prefix string
 }
 
-
 func (d *DbStorage) SetPrefix(prefix string) {
 	d.Prefix = prefix
 }
@@ -227,4 +226,3 @@ func (d *DbStorage) Delete(model interface{}, query interface{}) error {
 		return err
 	}
 }
-

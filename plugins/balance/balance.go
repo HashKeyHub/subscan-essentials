@@ -2,11 +2,12 @@ package balance
 
 import (
 	bm "github.com/go-kratos/kratos/pkg/net/http/blademaster"
-	"github.com/itering/subscan/plugins/storage"
-	"github.com/itering/subscan/plugins/router"
+	"github.com/itering/subscan/internal/dao"
 	"github.com/itering/subscan/plugins/balance/http"
 	"github.com/itering/subscan/plugins/balance/model"
 	"github.com/itering/subscan/plugins/balance/service"
+	"github.com/itering/subscan/plugins/router"
+	"github.com/itering/subscan/plugins/storage"
 	"github.com/shopspring/decimal"
 )
 
@@ -21,8 +22,8 @@ func New() *Account {
 	return &Account{}
 }
 
-func (a *Account) InitDao(d storage.Dao) {
-	srv = service.New(d)
+func (a *Account) InitDao(dao *dao.Dao, d storage.Dao) {
+	srv = service.New(dao)
 	a.d = d
 	a.Migrate()
 }
@@ -57,6 +58,6 @@ func (a *Account) Version() string {
 }
 
 func (a *Account) Migrate() {
-	a.d.AutoMigration(&model.Account{},)
+	a.d.AutoMigration(&model.Account{})
 	a.d.AddUniqueIndex(&model.Account{}, "address", "address")
 }

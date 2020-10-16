@@ -1,6 +1,7 @@
 package plugins
 
 import (
+	"github.com/itering/subscan/internal/dao"
 	"github.com/itering/subscan/plugins/router"
 	"github.com/itering/subscan/plugins/storage"
 	"github.com/shopspring/decimal"
@@ -8,7 +9,7 @@ import (
 
 type Plugin interface {
 	// Init storage interface
-	InitDao(d storage.Dao)
+	InitDao(dao *dao.Dao, d storage.Dao)
 
 	// Init http router
 	InitHttp() []router.Http
@@ -30,5 +31,4 @@ type Plugin interface {
 
 	// Plugins version
 	Version() string
-
 }

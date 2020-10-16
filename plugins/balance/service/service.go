@@ -1,20 +1,20 @@
 package service
 
 import (
-	"github.com/itering/subscan/plugins/storage"
+	id "github.com/itering/subscan/internal/dao"
 	"github.com/itering/subscan/plugins/balance/dao"
 	"github.com/shopspring/decimal"
 )
 
 type Service struct {
-	d storage.Dao
+	d *id.Dao
 }
 
 func (s *Service) GetAccount(account string) (decimal.Decimal, error) {
-	return dao.GetBalanceFromNetwork(account)
+	return dao.GetBalanceFromNetwork(s.d, account)
 }
 
-func New(d storage.Dao) *Service {
+func New(d *id.Dao) *Service {
 	return &Service{
 		d: d,
 	}

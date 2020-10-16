@@ -32,7 +32,7 @@ func New() (s *Service) {
 	s.initSubRuntimeLatest()
 
 	for _, plugin := range plugins.RegisteredPlugins {
-		plugin.InitDao(dbStorage)
+		plugin.InitDao(d, dbStorage)
 	}
 	return s
 }

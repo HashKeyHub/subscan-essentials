@@ -2,6 +2,7 @@ package main
 
 import (
 	bm "github.com/go-kratos/kratos/pkg/net/http/blademaster"
+	"github.com/itering/subscan/internal/dao"
 	"github.com/itering/subscan/plugins/router"
 	"github.com/itering/subscan/plugins/storage"
 	"github.com/itering/subscan/plugins/transfer/http"
@@ -24,7 +25,7 @@ func New() *Transfer {
 	return &Transfer{}
 }
 
-func (a *Transfer) InitDao(d storage.Dao) {
+func (a *Transfer) InitDao(dao *dao.Dao, d storage.Dao) {
 	srv = service.New(d)
 	a.d = d
 	a.Migrate()
