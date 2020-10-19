@@ -150,9 +150,9 @@ func (d *DbStorage) FindBy(record interface{}, query interface{}, option *storag
 		tx = tx.Where(query)
 	}
 
+	tx = tx.Table(d.getModelTableName(record))
 	// plugin prefix table
-	if option != nil && option.PluginPrefix != "" {
-		tx = tx.Table(fmt.Sprintf("%s_%s", option.PluginPrefix, d.getModelTableName(record)))
+	if option != nil {
 		if (option.Page > 0) && (option.PageSize > 0) {
 			tx = tx.Limit(option.PageSize).Offset((option.Page - 1) * option.PageSize)
 		}

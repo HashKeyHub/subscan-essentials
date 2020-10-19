@@ -2,6 +2,7 @@ package dao
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/itering/subscan/plugins/storage"
 	"github.com/itering/subscan/plugins/transfer/model"
@@ -19,7 +20,7 @@ func FindTransfer(db storage.Dao, page, row int, order, field string, where ...s
 		Order: fmt.Sprintf("%s %s", field, order),
 	}
 
-	count, ret := db.FindBy(&t, where, &option)
+	count, ret := db.FindBy(&t, strings.Join(where, " "), &option)
 	if count == 0 || ret != true {
 		return t, 0
 	}
