@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/go-kratos/kratos/pkg/log"
+	ws "github.com/gorilla/websocket"
 	"github.com/itering/scale.go/types"
 	"github.com/itering/subscan/internal/dao"
 	"github.com/itering/subscan/plugins/balance/model"
@@ -23,7 +24,18 @@ func ReadStorage(p websocket.WsConn, module, prefix string, hash string, spec in
 	key := storageKey.EncodeStorageKey(module, prefix, arg...)
 	v := &rpc.JsonRpcResult{}
 	if err = websocket.SendWsRequest(p, v, rpc.StateGetStorage(rand.Intn(10000), util.AddHex(key.EncodeKey), hash)); err != nil {
-		return
+		log.Warn("got error: (type: %T) %v, try to resend message", err, err)
+		if ws.IsUnexpectedCloseError(err, ws.CloseInvalidFramePayloadData,
+			ws.CloseMessageTooBig, ws.CloseProtocolError) != true {
+			// resend
+			if err = websocket.SendWsRequest(p, v, rpc.StateGetStorage(rand.Intn(10000), util.AddHex(key.EncodeKey), hash)); err != nil {
+				log.Error("send ws failed: %v", err)
+				return
+			}
+		} else {
+			log.Error("send ws failed: %v", err)
+			return
+		}
 	}
 	if dataHex, err := v.ToString(); err == nil {
 		if dataHex == "" {
@@ -37,7 +49,7 @@ func ReadStorage(p websocket.WsConn, module, prefix string, hash string, spec in
 func Decode(raw string, decodeType string, metadata *metadata.Instant, spec int) (s storage.StateStorage, err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			err = fmt.Errorf("Recovering from panic in Decode error is: %v \n", r)
+			err = fmt.Errorf("Recovering from panic in Decode error is: %v", r)
 		}
 	}()
 	m := types.ScaleDecoder{}

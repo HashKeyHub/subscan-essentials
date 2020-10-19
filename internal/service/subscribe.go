@@ -1,13 +1,14 @@
 package service
 
 import (
-	"github.com/itering/subscan/pkg/recws"
-	"github.com/itering/substrate-api-rpc/rpc"
-	"github.com/itering/substrate-api-rpc/storageKey"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/itering/substrate-api-rpc/pkg/recws"
+	"github.com/itering/substrate-api-rpc/rpc"
+	"github.com/itering/substrate-api-rpc/storageKey"
 
 	"github.com/go-kratos/kratos/pkg/log"
 	"github.com/gorilla/websocket"

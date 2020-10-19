@@ -1,6 +1,8 @@
 module github.com/itering/subscan
 
-go 1.12
+go 1.14
+
+// replace github.com/itering/substrate-api-rpc => /Users/zankard/Documents/GitHub/substrate-api-rpc
 
 require (
 	github.com/bitly/go-simplejson v0.5.0 // indirect
@@ -15,7 +17,6 @@ require (
 	github.com/itering/scale.go v0.7.1
 	github.com/itering/substrate-api-rpc v0.2.0
 	github.com/jinzhu/gorm v1.9.14
-	github.com/jpillora/backoff v1.0.0
 	github.com/json-iterator/go v1.1.9
 	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
