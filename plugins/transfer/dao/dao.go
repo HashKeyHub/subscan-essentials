@@ -21,7 +21,7 @@ func FindTransfer(db storage.Dao, page, row int, order, field string, where ...s
 	}
 
 	count, ret := db.FindBy(&t, strings.Join(where, " "), &option)
-	if count == 0 || ret != true {
+	if count == 0 || ret == true {
 		return t, 0
 	}
 
