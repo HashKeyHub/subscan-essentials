@@ -58,16 +58,16 @@ func (a *Transfer) ProcessExtrinsic(block *storage.Block, extrinsic *storage.Ext
 	log.Info("extrinsic params: %v", paramsInstant)
 	for _, param := range paramsInstant {
 		p := param.(map[string]interface{})
-		if p["Type"] == "Address" {
-			to, err := decodeMultiAddress(p["Value"].(map[string]interface{}))
+		if p["type"] == "Address" {
+			to, err := decodeMultiAddress(p["value"].(map[string]interface{}))
 			if err != nil {
 				log.Error("%s", err)
 				return err
 			}
 			t.To = to
 		}
-		if p["Type"] == "Compact<Balance>" && p["Name"] == "value" {
-			t.Amount, _ = decimal.NewFromString(p["Value"].(string))
+		if p["type"] == "Compact<Balance>" && p["name"] == "value" {
+			t.Amount, _ = decimal.NewFromString(p["value"].(string))
 		}
 	}
 	return srv.SaveTransfer(&t)
