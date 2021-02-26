@@ -1,5 +1,4 @@
 {
-  "Address": "AccountId",
   "BlockNumber": "u32",
   "LeasePeriod": "BlockNumber",
   "Keys": "SessionKeysPolkadot",
@@ -8,39 +7,16 @@
   "DispatchInfo": {
     "type": "struct",
     "type_mapping": [
-      [
-        "weight",
-        "Weight"
-      ],
-      [
-        "class",
-        "DispatchClass"
-      ],
-      [
-        "paysFee",
-        "Pays"
-      ]
-    ]
-  },
-  "DispatchClass": {
-    "type": "enum",
-    "value_list": [
-      "Normal",
-      "Operational",
-      "Mandatory"
+      ["weight", "Weight"],
+      ["class", "DispatchClass"],
+      ["paysFee", "Pays"]
     ]
   },
   "DispatchResult": {
     "type": "enum",
     "type_mapping": [
-      [
-        "Ok",
-        "Null"
-      ],
-      [
-        "Error",
-        "DispatchError"
-      ]
+      ["Ok", "Null"],
+      ["Error", "DispatchError"]
     ]
   },
   "ProxyType": {
@@ -50,10 +26,28 @@
       "NonTransfer",
       "Staking",
       "SudoBalances",
-      "IdentityJudgement"
+      "IdentityJudgement",
+      "CancelProxy"
     ]
   },
   "CompactAssignments#43-?": "CompactAssignmentsLatest",
   "RewardDestination#43-?": "RewardDestinationLatest",
-  "RefCount#45-?": "u32"
+  "RefCount#45-?": "u32",
+  "Box<<T as Config>::Call>": "Call",
+  "AccountInfo#48-?": "AccountInfoWithProviders",
+  "Address": "MultiAddress",
+  "LookupSource": "MultiAddress",
+  "ValidatorPrefs": "ValidatorPrefsWithBlocked",
+  "Keys#48-?": {
+    "type": "struct",
+    "type_mapping": [
+      ["grandpa", "AccountId"],
+      ["babe", "AccountId"],
+      ["im_online", "AccountId"],
+      ["para_validator", "AccountId"],
+      ["para_assignment", "AccountId"],
+      ["authority_discovery", "AccountId"]
+    ]
+  }
 }
+

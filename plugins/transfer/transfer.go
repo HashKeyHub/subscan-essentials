@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/go-kratos/kratos/pkg/log"
 	bm "github.com/go-kratos/kratos/pkg/net/http/blademaster"
 	"github.com/itering/subscan/internal/dao"
 	"github.com/itering/subscan/plugins/router"
@@ -8,10 +9,8 @@ import (
 	"github.com/itering/subscan/plugins/transfer/http"
 	model2 "github.com/itering/subscan/plugins/transfer/model"
 	"github.com/itering/subscan/plugins/transfer/service"
-	"github.com/itering/substrate-api-rpc/util"
+	"github.com/pkg/errors"
 	"github.com/shopspring/decimal"
-
-	"github.com/go-kratos/kratos/pkg/log"
 )
 
 var srv *service.Service
@@ -45,10 +44,8 @@ func (a *Transfer) ProcessExtrinsic(block *storage.Block, extrinsic *storage.Ext
 		// ignore others
 		return nil
 	}
-
-	log.Info("Processing block %d, %v", block.BlockNum, extrinsic)
-	var paramsInstant []storage.ExtrinsicParam
-	util.UnmarshalToAnything(&paramsInstant, extrinsic.Params)
+	log.Info("Processing block %d, %v, %s, %s", block.BlockNum, extrinsic)
+	paramsInstant := extrinsic.Params.([]interface{})
 	var t = model2.Transfer{
 		From:           extrinsic.AccountId,
 		BlockNum:       block.BlockNum,
@@ -60,11 +57,17 @@ func (a *Transfer) ProcessExtrinsic(block *storage.Block, extrinsic *storage.Ext
 	}
 	log.Info("extrinsic params: %v", paramsInstant)
 	for _, param := range paramsInstant {
-		if param.Type == "Address" {
-			t.To = param.Value.(string)
+		p := param.(map[string]interface{})
+		if p["Type"] == "Address" {
+			to, err := decodeMultiAddress(p["Value"].(map[string]interface{}))
+			if err != nil {
+				log.Error("%s", err)
+				return err
+			}
+			t.To = to
 		}
-		if param.Type == "Compact<Balance>" && param.Name == "value" {
-			t.Amount, _ = decimal.NewFromString(param.Value.(string))
+		if p["Type"] == "Compact<Balance>" && p["Name"] == "value" {
+			t.Amount, _ = decimal.NewFromString(p["Value"].(string))
 		}
 	}
 	return srv.SaveTransfer(&t)
@@ -93,4 +96,13 @@ func (a *Transfer) Migrate() {
 	a.d.AddUniqueIndex(&model2.Transfer{}, "extrinsic_index", "extrinsic_index")
 	a.d.AddIndex(&model2.Transfer{}, "idx_from", "addr_from")
 	a.d.AddIndex(&model2.Transfer{}, "idx_to", "addr_to")
+}
+
+func decodeMultiAddress(m map[string]interface{}) (string, error) {
+	id, ok := m["Id"]
+	if ok {
+		return id.(string), nil
+	}
+
+	return "", errors.New("invalid address")
 }

@@ -17,12 +17,11 @@ func (c *ChainBlock) AsPluginBlock() *storage.Block {
 }
 
 func (c *ChainExtrinsic) AsPluginExtrinsic() *storage.Extrinsic {
-	paramBytes, _ := json.Marshal(c.Params)
 	return &storage.Extrinsic{
 		ExtrinsicIndex:     c.ExtrinsicIndex,
 		CallModule:         c.CallModule,
 		CallModuleFunction: c.CallModuleFunction,
-		Params:             paramBytes,
+		Params:             c.Params,
 		AccountId:          c.AccountId,
 		Signature:          c.Signature,
 		Nonce:              c.Nonce,

@@ -7,90 +7,40 @@
   "DispatchInfo": {
     "type": "struct",
     "type_mapping": [
-      [
-        "weight",
-        "Weight"
-      ],
-      [
-        "class",
-        "DispatchClass"
-      ],
-      [
-        "paysFee",
-        "Pays"
-      ]
-    ]
-  },
-  "DispatchClass": {
-    "type": "enum",
-    "value_list": [
-      "Normal",
-      "Operational",
-      "Mandatory"
+      ["weight", "Weight"],
+      ["class", "DispatchClass"],
+      ["paysFee", "Pays"]
     ]
   },
   "DispatchResult": {
     "type": "enum",
     "type_mapping": [
-      [
-        "Ok",
-        "Null"
-      ],
-      [
-        "Error",
-        "DispatchError"
-      ]
+      ["Ok", "Null"],
+      ["Error", "DispatchError"]
     ]
   },
   "Timepoint": {
     "type": "struct",
     "type_mapping": [
-      [
-        "height",
-        "BlockNumber"
-      ],
-      [
-        "index",
-        "u32"
-      ]
+      ["height", "BlockNumber"],
+      ["index", "u32"]
     ]
   },
   "Multisig": {
     "type": "struct",
     "type_mapping": [
-      [
-        "when",
-        "Timepoint"
-      ],
-      [
-        "deposit",
-        "Balance"
-      ],
-      [
-        "depositor",
-        "AccountId"
-      ],
-      [
-        "approvals",
-        "Vec<AccountId>"
-      ]
+      ["when", "Timepoint"],
+      ["deposit", "Balance"],
+      ["depositor", "AccountId"],
+      ["approvals", "Vec<AccountId>"]
     ]
   },
   "BalanceLock<Balance, BlockNumber>": {
     "type": "struct",
     "type_mapping": [
-      [
-        "id",
-        "LockIdentifier"
-      ],
-      [
-        "amount",
-        "Balance"
-      ],
-      [
-        "reasons",
-        "Reasons"
-      ]
+      ["id", "LockIdentifier"],
+      ["amount", "Balance"],
+      ["reasons", "Reasons"]
     ]
   },
   "ProxyType": {
@@ -107,17 +57,15 @@
   "ReferendumInfo": {
     "type": "enum",
     "type_mapping": [
-      [
-        "Ongoing",
-        "ReferendumStatus"
-      ],
-      [
-        "Finished",
-        "ReferendumInfoFinished"
-      ]
+      ["Ongoing", "ReferendumStatus"],
+      ["Finished", "ReferendumInfoFinished"]
     ]
   },
   "CompactAssignments#23-?": "CompactAssignmentsLatest",
   "RewardDestination#23-?": "RewardDestinationLatest",
-  "RefCount#25-?": "u32"
+  "RefCount": "u32",
+  "AccountInfo#28-?": "AccountInfoWithProviders",
+  "Address#28-?": "MultiAddress",
+  "LookupSource#28-?": "MultiAddress"
 }
+

@@ -61,7 +61,7 @@ type Extrinsic struct {
 	CallCode           string          `json:"call_code"`
 	CallModuleFunction string          `json:"call_module_function" `
 	CallModule         string          `json:"call_module"`
-	Params             []byte          `json:"params"`
+	Params             interface{}     `json:"params"`
 	AccountId          string          `json:"account_id"`
 	Signature          string          `json:"signature"`
 	Nonce              int             `json:"nonce"`
