@@ -74,39 +74,10 @@ func (s *Service) Subscribe() {
 		log.Info("write: %s", err)
 	}
 
-	ticker := time.NewTicker(time.Second * 3)
-	defer ticker.Stop()
-
-	subscribeStorageList := SubscribeStorage()
-	checkHealth := func() {
-		for _, subscript := range subscriptionIds {
-			if time.Now().Unix()-subscript.Latest > subscribeTimeoutInterval {
-				switch subscript.Topic {
-
-				case newHeader:
-					if err = subscribeConn.WriteMessage(websocket.TextMessage, rpc.ChainSubscribeNewHead(newHeader)); err != nil {
-						log.Info("write: %s", err)
-					}
-				case finalizeHeader:
-					if err = subscribeConn.WriteMessage(websocket.TextMessage, rpc.ChainSubscribeFinalizedHeads(finalizeHeader)); err != nil {
-						log.Info("write: %s", err)
-					}
-
-				case stateChange:
-					if err = subscribeConn.WriteMessage(websocket.TextMessage, rpc.StateSubscribeStorage(stateChange, subscribeStorageList)); err != nil {
-						log.Info("write: %s", err)
-					}
-				}
-			}
-		}
-	}
-
 	for {
 		select {
 		case <-done:
 			return
-		case <-ticker.C:
-			checkHealth()
 		case <-interrupt:
 			close(done)
 			log.Info("interrupt")
